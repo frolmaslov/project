@@ -5,13 +5,10 @@
 <a href="{% url 'expenses:expense-create' %}">add</a>
 
 <form method="get" action="">
-
   {{form.as_p}}
-
   <button type="submit">search</button>
 </form>
 <br>
-
 <table border="1">
 	<caption>Expenses</caption>
 	<thead>
@@ -21,7 +18,6 @@
 		<th>name</th>
 		<th>amount</th>
 		<th>date</th>
-		<th>total</th>
 		<th>actions</th>
 	  </tr>
 	</thead>
@@ -34,7 +30,6 @@
 		<td>{{ obj.name|default:"-" }}</td>
 		<td>{{ obj.amount|floatformat:2 }}</td>
 		<td>{{obj.date}}</td>
-		<td>{{ obj.total|floatformat:2 }}</td>
 		<td>
 		  <a href="{% url 'expenses:expense-edit' obj.id %}">edit</a>
 		  <a href="{% url 'expenses:expense-delete' obj.id %}">delete</a>
@@ -46,68 +41,19 @@
 	  </tr>
 	{% endfor %}
 	</tbody>
-
 </table>
-	<p> <strong> Total amount: {{ total_amount|floatformat:2}}</strong></p>
-
-
 
 {% include "_pagination.html" %}
 <hr>
-<br>
-
-
 <table border="1">
-  <caption>Summary and number of expenses per category</caption>
-	<thead>
-	  <tr>
-
-		<th>Category</th>
-
-		<th>Summary</th>
-
-		<th>Number of expenses</th>
-
-	  </tr>
-	</thead>
+  <caption>Summary per category</caption>
   <tr>
     {% for category, total in summary_per_category.items %}
 	<tr>
 		<td>{{category}}:</td>
-		<td width="40%">{{total|floatformat:2}}</td>
-	{% for cat, num in number_expenses_per_category.items %}
-	{% if cat == category %}
-		<td width="40%">{{ num }}</td>
-	{% endif %}
-	{% endfor %}
+		<td>{{total|floatformat:2}}</td>
 	</tr>
 	{% endfor %}
-  </tr>
-</table>
-<br>
-
-<br>
-<table border="1">
-  <caption>Summary per year-month</caption>
-  <tr>
-    {% for year, total in summary_per_year.items %}
-	<tr>
-		<td>{{year}}:</td>
-		<td width="50%">{{total|floatformat:2}}</td>
-	{% endfor %}
-	</tr>
-  </tr>
-</table>
-<br>
-<table border="1">
-  <caption>Summary per month</caption>
-  <tr>
-    {% for month, total in summary_per_month.items %}
-	<tr>
-		<td>{{month}}:</td>
-		<td width="50%">{{total|floatformat:2}}</td>
-	{% endfor %}
-	</tr>
   </tr>
 </table>
 {% endblock %}
